@@ -1,6 +1,11 @@
-const App = () => {
-  return <div>App</div>;
-};
+import HomePage from "./pages/HomePage";
 
+function App() {
+  return (
+    <>
+      <HomePage />
+    </>
+  );
+}
 
 export default App;

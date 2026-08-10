@@ -23,7 +23,10 @@ export const createShortUrl = async (req, res) => {
   }
 
   const shortUrl = await createShortUrlWithoutUser(url);
-  res.status(201).send(`${process.env.APP_URL}${shortUrl}`);
+  res.status(201).json({
+    success: true,
+    shortUrl: `${process.env.APP_URL}${shortUrl}`,
+  });
 };
 
 export const redirectFromShortUrl = async (req, res) => {
