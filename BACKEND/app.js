@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "./src/config/mongo.config.js";
 
 import short_url from "./src/routes/short_url.route.js"
+import auth_routes from "./src/routes/auth.routes.js"
 
 import { redirectFromShortUrl } from "./src/controller/short_url.controller.js"
 
@@ -11,8 +12,7 @@ import { AppError, errorHandler, NotFoundError } from "./src/utils/errorHandler.
 import { tryCatchWrapper } from "./src/utils/tryCatchWrapper.js";
 
 
-
-dotenv.config();
+dotenv.config({ path: "./.env" });
 const app = express();
 
 const allowedOrigins = [
@@ -37,7 +37,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
+app.use("/api/auth",auth_routes)
 app.use("/api/create",short_url)
 
 

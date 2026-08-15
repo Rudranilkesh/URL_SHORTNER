@@ -7,3 +7,8 @@ export const tryCatchWrapper = (controller) => {
         }
     };
 };
+
+export const wrapAsync = tryCatchWrapper;
+
+
+

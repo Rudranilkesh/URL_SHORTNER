@@ -1,5 +1,6 @@
 import {
   createShortUrlWithoutUser,
+  createShortUrlWithUser,
   getShortUrl,
 } from "../services/short_url.service.js";
 import { BadRequestError, NotFoundError } from "../utils/errorHandler.js";
@@ -22,11 +23,13 @@ export const createShortUrl = async (req, res) => {
     throw new BadRequestError("URL must use http or https");
   }
 
-  const shortUrl = await createShortUrlWithoutUser(url);
-  res.status(201).json({
-    success: true,
-    shortUrl: `${process.env.APP_URL}${shortUrl}`,
-  });
+  let shortUrl;
+  if (req.user) {
+    shortUrl = await createShortUrlWithUser(url, req.user._id);
+  } else {
+    shortUrl = await createShortUrlWithoutUser(url);
+  }
+  res.status(200).json({ shortUrl: process.env.APP_URL + shortUrl });
 };
 
 export const redirectFromShortUrl = async (req, res) => {
