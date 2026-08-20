@@ -12,9 +12,15 @@ export const createShortUrlWithoutUser = async (url) => {
     return shortUrl;
 } 
 
-export const createShortUrlWithUser = async (url,userId) => {
-    const shortUrl = await generateNanoId(7);
-    await saveShortUrl(shortUrl, url, userId);
+export const createShortUrlWithUser = async (url, userId, slug=null) => {
+    const shortUrl = slug || generateNanoId(7);
+    if (slug) {
+        const exists = await getShortUrlFromDao(slug);
+        if(exists){
+            throw new ConflictError("This custom url already exists");
+        }
+    }
+    await saveShortUrl(shortUrl, url, userId);  // ✅ correct order: shortUrl first, url second
     return shortUrl;
 } 
 

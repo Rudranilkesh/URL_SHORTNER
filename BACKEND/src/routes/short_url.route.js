@@ -1,5 +1,5 @@
 import express from 'express';
-import { createShortUrl,createCustomShortUrl } from '../controller/short_url.controller.js';
+import { createShortUrl, createCustomShortUrl } from '../controller/short_url.controller.js';
 import { tryCatchWrapper } from '../utils/tryCatchWrapper.js';
 const router = express.Router();
 

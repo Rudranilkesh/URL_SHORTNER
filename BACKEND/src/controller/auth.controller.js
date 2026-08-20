@@ -19,7 +19,7 @@ export const login_user = wrapAsync(async(req,res)=>{
     if (!email || !password) {
     throw new BadRequestError("All fields are required");
   }
-  const token = await loginUser(email,password);
+  const {token,user} = await loginUser(email,password);
   req.user = user;
   res.cookie('accessToken',token,cookieOptions)
   res.status(200).json({message:"Login successfull"})

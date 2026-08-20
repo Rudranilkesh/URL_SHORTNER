@@ -11,6 +11,9 @@ import { redirectFromShortUrl } from "./src/controller/short_url.controller.js"
 import { AppError, errorHandler, NotFoundError } from "./src/utils/errorHandler.js";
 import { tryCatchWrapper } from "./src/utils/tryCatchWrapper.js";
 
+import { attachUser } from "./src/utils/attachUser.js";
+
+import cookieParser from "cookie-parser";
 
 dotenv.config({ path: "./.env" });
 const app = express();
@@ -31,12 +34,14 @@ app.use(cors({
     },
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
+    credentials: true,
 }));
 
 //post route - create sort url
-
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(attachUser)
 app.use("/api/auth",auth_routes)
 app.use("/api/create",short_url)
 
