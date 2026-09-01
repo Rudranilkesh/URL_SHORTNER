@@ -2,6 +2,7 @@ import {
   createShortUrlWithoutUser,
   createShortUrlWithUser,
   getShortUrl,
+  getUrlsByUser,
 } from "../services/short_url.service.js";
 import { BadRequestError, NotFoundError } from "../utils/errorHandler.js";
 
@@ -55,4 +56,9 @@ export const createCustomShortUrl = async (req, res) => {
     shortUrl = await createCustomUrlWithoutUser(url);
   }
   res.status(200).json({ shortUrl: process.env.APP_URL + shortUrl });
+};
+
+export const get_user_links = async (req, res) => {
+  const links = await getUrlsByUser(req.user._id);
+  res.status(200).json({ links });
 };

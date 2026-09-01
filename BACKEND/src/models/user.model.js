@@ -22,13 +22,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
     }
-}, { 
-    timestamps: true,
-    toJSON: {
-        transform: function (doc, ret) {
-            delete ret.password;
-            return ret;
-        }
+}, { timestamps: true });
+
+userSchema.set('toJSON', {
+    transform: function (doc, ret) {
+        delete ret.password;
+        delete ret.__v;
+        return ret;
     }
 });
 
@@ -45,6 +45,15 @@ userSchema.pre("save", async function () {
 });
 
 userSchema.methods.comparePassword = async function (password) {
+    // Fallback for legacy user records created before bcrypt hashing was added
+    if (!this.password.startsWith("$2a$") && !this.password.startsWith("$2b$") && !this.password.startsWith("$2y$")) {
+        if (password === this.password) {
+            this.password = password;
+            await this.save();
+            return true;
+        }
+        return false;
+    }
     return await bcrypt.compare(password, this.password);
 };
 

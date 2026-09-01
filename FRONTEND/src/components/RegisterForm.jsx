@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { registerUser } from "../api/user.api";
+import { registerUser } from "../api/user.api.js";
+import { useDispatch } from "react-redux";
+import { login } from "../store/slice/authSlice.js";
 
 function RegisterForm({ onSuccess, onSwitchToLogin }) {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +32,7 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
     const password = formData.password;
     const confirmPassword = formData.confirmPassword;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !confirmPassword) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -45,7 +48,7 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
       return;
     }
 
-    if (confirmPassword && password !== confirmPassword) {
+    if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
@@ -56,6 +59,9 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
 
     try {
       const response = await registerUser(name, email, password);
+      if (response?.user) {
+        dispatch(login({ user: response.user, token: response.token }));
+      }
       setSuccess(response?.message || "Registration successful! You can now log in.");
       if (onSuccess) {
         onSuccess(response);

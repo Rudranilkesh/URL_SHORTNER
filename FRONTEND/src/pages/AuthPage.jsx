@@ -9,7 +9,7 @@ const AuthPage = () => {
 
     const handleLoginSuccess = () => {
         setTimeout(() => {
-            navigate({ to: '/home' });
+            navigate({ to: '/dashboard' });
         }, 1000);
     };
 
@@ -57,7 +57,9 @@ const AuthPage = () => {
                         <RegisterForm
                             onSwitchToLogin={() => setIsLogin(true)}
                             onSuccess={() => {
-                                setTimeout(() => setIsLogin(true), 1500);
+                                setTimeout(() => {
+                                    navigate({ to: '/dashboard' });
+                                }, 1000);
                             }}
                         />
                     )}

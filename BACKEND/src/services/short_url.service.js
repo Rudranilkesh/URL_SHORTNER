@@ -2,6 +2,7 @@ import { generateNanoId } from "../utils/helper.js";
 import {
     getShortUrl as getShortUrlFromDao,
     saveShortUrl,
+    getUrlsByUser as getUrlsByUserFromDao,
 } from "../dao/short_url.js";
 
 import { ConflictError } from "../utils/errorHandler.js";
@@ -20,7 +21,7 @@ export const createShortUrlWithUser = async (url, userId, slug=null) => {
             throw new ConflictError("This custom url already exists");
         }
     }
-    await saveShortUrl(shortUrl, url, userId);  // ✅ correct order: shortUrl first, url second
+    await saveShortUrl(shortUrl, url, userId);
     return shortUrl;
 } 
 
@@ -35,4 +36,8 @@ export const createCustomShortUrl = async (url, slug, userId) => {
 
 export const getShortUrl = async (id) => {
     return await getShortUrlFromDao(id);
+};
+
+export const getUrlsByUser = async (userId) => {
+    return await getUrlsByUserFromDao(userId);
 };

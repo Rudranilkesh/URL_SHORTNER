@@ -22,9 +22,13 @@ export const login_user = wrapAsync(async (req, res) => {
     const { token, user } = await loginUser(email, password);
     req.user = user;
     res.cookie('accessToken', token, cookieOptions)
-    res.status(200).json({ user: user, message: "Login successfull" })
-
+    res.status(200).json({ message: "Login successful", user })
 })
+
+export const logout_user = wrapAsync(async (req, res) => {
+    res.clearCookie('accessToken', cookieOptions);
+    res.status(200).json({ message: "Logout successful" });
+});
 
 export const createCustomUrl = wrapAsync(async (req, res) => {
     const { url, slug } = req.body;
@@ -35,3 +39,8 @@ export const createCustomUrl = wrapAsync(async (req, res) => {
     const shortUrl = await createCustomUrl(url, slug);
     res.status(200).json({ message: "Custom URL created successfully", shortUrl });
 })
+
+export const get_current_user = wrapAsync(async (req, res) => {
+    const user = req.user;
+    res.status(200).json({ message: "User found", user });
+});

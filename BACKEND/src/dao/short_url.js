@@ -26,3 +26,7 @@ export const getCustomUrl = async (slug) => {
     return await urlSchema.findOne({ short_url: slug });
 }
 
+// get all urls for a specific user
+export const getUrlsByUser = async (userId) => {
+    return await urlSchema.find({ user: userId.toString() }).sort({ _id: -1 });
+};

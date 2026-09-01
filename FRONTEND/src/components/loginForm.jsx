@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { loginUser } from "../api/user.api";
+import { loginUser } from "../api/user.api.js";
 import { useDispatch } from "react-redux";
-import { login } from "../store/slice/authSlice";
+import { login } from "../store/slice/authSlice.js";
 
 function LoginForm({ onSuccess, onSwitchToRegister }) {
   const [formData, setFormData] = useState({
