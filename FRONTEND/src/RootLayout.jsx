@@ -1,14 +1,13 @@
-import React from 'react'
-import LoginForm from "./components/LoginForm";
-import AuthPage from "./pages/AuthPage";
-import HomePage from "./pages/HomePage";
+import { Outlet } from '@tanstack/react-router';
 
 function RootLayout() {
   return (
     <>
-      <HomePage />
+      <Outlet />
     </>
   );
 }
 
-export default App;
+export default RootLayout;
+
+

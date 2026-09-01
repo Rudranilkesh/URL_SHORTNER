@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../api/user.api";
+import { useDispatch } from "react-redux";
+import { login } from "../store/slice/authSlice";
 
 function LoginForm({ onSuccess, onSwitchToRegister }) {
   const [formData, setFormData] = useState({
@@ -10,6 +12,8 @@ function LoginForm({ onSuccess, onSwitchToRegister }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,11 +46,13 @@ function LoginForm({ onSuccess, onSwitchToRegister }) {
 
     try {
       const response = await loginUser(email, password);
+      dispatch(login({ user: response?.user, token: response?.token }));
       setSuccess(response?.message || "Login successful!");
       if (onSuccess) {
         onSuccess(response);
       }
     } catch (err) {
+
       const message =
         err?.response?.data?.message ||
         err?.message ||

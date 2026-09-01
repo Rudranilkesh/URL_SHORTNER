@@ -1,25 +1,19 @@
-import UrlFrom from "../components/UrlFrom";
 import NavBar from "../components/NavBar";
 
-function HomePage() {
+export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-nyc-black px-4 py-6 text-white sm:px-6 lg:px-8">
       <section className="mx-auto flex min-h-[calc(100vh-3rem)] w-full max-w-5xl flex-col rounded-[2rem] border border-white/15 bg-nyc-dark p-6 shadow-nyc sm:p-10">
         <NavBar />
-
-
-        <div className="flex flex-1 items-center py-12 sm:py-16">
-          <div className="w-full">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-nyc-yellow">
-              Fast. Simple. Shareable.
-            </p>
-            <h1 className="max-w-3xl text-4xl font-bold leading-[1.04] tracking-[-0.055em] sm:text-6xl">
-              Make every link easier to share.
+        
+        <div className="flex flex-1 items-center justify-center py-12 sm:py-16">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">
+              Dashboard
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/70 sm:text-lg">
-              Paste a long URL and receive a concise link that is ready to send anywhere.
+            <p className="mt-4 text-base text-white/60">
+              Manage your shortened links and analytics here.
             </p>
-            <UrlFrom />
           </div>
         </div>
 
@@ -31,5 +25,3 @@ function HomePage() {
     </main>
   );
 }
-
-export default HomePage;

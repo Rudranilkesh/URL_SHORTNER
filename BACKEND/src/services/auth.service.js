@@ -15,11 +15,12 @@ export const registerUser = async(name,email,password)=>{
 
 export const loginUser = async(email,password)=>{
     const user = await findUserByEmail(email);
+    if(!user) throw new UnauthorizedError("Invalid Credentials");
 
     const isPasswordValid = await user.comparePassword(password);
-    if(!user || !isPasswordValid) throw new UnauthorizedError("Invalid Credentials");
+    if(!isPasswordValid) throw new UnauthorizedError("Invalid Credentials");
 
     const token = signToken({id: user._id});
     
     return {token,user};
-}
+}

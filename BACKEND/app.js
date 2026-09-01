@@ -15,7 +15,8 @@ import { attachUser } from "./src/utils/attachUser.js";
 
 import cookieParser from "cookie-parser";
 
-dotenv.config({ path: "./.env" });
+dotenv.config();
+
 const app = express();
 
 const allowedOrigins = [

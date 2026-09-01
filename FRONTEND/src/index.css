@@ -31,3 +31,10 @@ button,
 input {
   font: inherit;
 }
+
+a,
+button {
+  -webkit-user-select: none;
+  user-select: none;
+}
+

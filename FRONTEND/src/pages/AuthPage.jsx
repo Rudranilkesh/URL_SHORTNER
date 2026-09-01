@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 
 const AuthPage = () => {
     const [isLogin, setIsLogin] = useState(true);
+    const navigate = useNavigate();
+
+    const handleLoginSuccess = () => {
+        setTimeout(() => {
+            navigate({ to: '/home' });
+        }, 1000);
+    };
 
     return (
         <main className="min-h-screen w-full bg-nyc-dark text-white flex flex-col justify-between p-6 sm:px-10 sm:py-6">
             <header className="flex items-center justify-between border-b border-white/10 pb-4">
-                <a className="text-2xl font-bold tracking-[-0.06em]" href="/" aria-label="RYL URL shortener home">
+                <a className="text-2xl font-bold tracking-[-0.06em] select-none cursor-pointer outline-none" href="/" aria-label="RYL URL shortener home">
                     RYL<span className="text-nyc-yellow">.</span>
                 </a>
+
                 <div className="flex items-center gap-2">
                     <button
                         type="button"
@@ -41,6 +50,7 @@ const AuthPage = () => {
                 <div className="w-full max-w-md">
                     {isLogin ? (
                         <LoginForm
+                            onSuccess={handleLoginSuccess}
                             onSwitchToRegister={() => setIsLogin(false)}
                         />
                     ) : (
@@ -63,3 +73,4 @@ const AuthPage = () => {
 };
 
 export default AuthPage;
+
