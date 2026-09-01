@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -21,7 +22,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
     }
-}, { timestamps: true });
+}, { 
+    timestamps: true,
+    toJSON: {
+        transform: function (doc, ret) {
+            delete ret.password;
+            return ret;
+        }
+    }
+});
 
 userSchema.pre("save", async function () {
     if (this.isModified("email") || !this.avatar) {
@@ -30,9 +39,15 @@ userSchema.pre("save", async function () {
     }
 });
 
-userSchema.methods.comparePassword = async function (candidatePassword) {
-    return candidatePassword === this.password;
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
+    this.password = await bcrypt.hash(this.password, 10);
+});
+
+userSchema.methods.comparePassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
 };
 
 export default mongoose.model("User", userSchema);
+
 

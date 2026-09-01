@@ -6,10 +6,9 @@ export const registerUser = async(name,email,password)=>{
     const user = await findUserByEmail(email)
     if(user) throw new ConflictError("User already exists");
 
-
     const newUser = await createUser(name,email,password);
-    await newUser.save();
     const token = await signToken({id: newUser._id});
+    newUser.password = undefined;
     return { token, user: newUser };
 }
 
@@ -21,6 +20,7 @@ export const loginUser = async(email,password)=>{
     if(!isPasswordValid) throw new UnauthorizedError("Invalid Credentials");
 
     const token = signToken({id: user._id});
+    user.password = undefined;
     
     return {token,user};
 }
