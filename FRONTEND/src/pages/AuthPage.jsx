@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/loginForm';
 import RegisterForm from '../components/RegisterForm';
 
 const AuthPage = () => {
