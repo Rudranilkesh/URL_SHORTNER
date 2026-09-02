@@ -3,12 +3,14 @@ import NavBar from "../components/NavBar";
 
 function HomePage() {
   return (
-    <main className="min-h-screen bg-nyc-black px-4 py-6 text-white sm:px-6 lg:px-8">
-      <section className="mx-auto flex min-h-[calc(100vh-3rem)] w-full max-w-5xl flex-col rounded-[2rem] border border-white/15 bg-nyc-dark p-6 shadow-nyc sm:p-10">
-        <NavBar />
+    <main className="h-dvh overflow-hidden bg-nyc-black px-4 py-4 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-full w-full max-w-5xl flex-col">
+        <section className="rounded-[2rem] border border-white/15 bg-nyc-dark px-6 py-6 shadow-nyc sm:px-10">
+          <NavBar />
+        </section>
 
-
-        <div className="flex flex-1 items-center py-12 sm:py-16">
+        <section className="mt-4 flex min-h-0 flex-1 flex-col rounded-[2rem] border border-white/15 bg-nyc-dark p-6 shadow-nyc sm:p-10">
+          <div className="flex min-h-0 flex-1 items-center py-4 sm:py-6">
           <div className="w-full">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-nyc-yellow">
               Fast. Simple. Shareable.
@@ -21,13 +23,14 @@ function HomePage() {
             </p>
             <UrlFrom />
           </div>
-        </div>
+          </div>
 
-        <footer className="flex flex-col gap-2 border-t border-white/15 pt-5 text-sm text-white/55 sm:flex-row sm:items-center sm:justify-between">
-          <span>Short links for the next thing you share.</span>
-          <span>Copyright {new Date().getFullYear()} RYL</span>
-        </footer>
-      </section>
+          <footer className="flex flex-col gap-2 border-t border-white/15 pt-5 text-sm text-white/55 sm:flex-row sm:items-center sm:justify-between">
+            <span>Short links for the next thing you share.</span>
+            <span>Copyright {new Date().getFullYear()} RYL</span>
+          </footer>
+        </section>
+      </div>
     </main>
   );
 }

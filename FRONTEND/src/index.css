@@ -27,6 +27,26 @@ body {
   margin: 0;
 }
 
+.links-scrollbar {
+  scrollbar-color: #555 #171717;
+  scrollbar-width: thin;
+}
+
+.links-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.links-scrollbar::-webkit-scrollbar-track {
+  background: #171717;
+}
+
+.links-scrollbar::-webkit-scrollbar-thumb {
+  background: #555;
+  border: 2px solid #171717;
+  border-radius: 999px;
+}
+
 button,
 input {
   font: inherit;
@@ -37,4 +57,3 @@ button {
   -webkit-user-select: none;
   user-select: none;
 }
-

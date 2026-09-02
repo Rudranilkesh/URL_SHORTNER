@@ -9,7 +9,7 @@ const AuthPage = () => {
 
     const handleLoginSuccess = () => {
         setTimeout(() => {
-            navigate({ to: '/dashboard' });
+            navigate({ to: '/home' });
         }, 1000);
     };
 
@@ -58,7 +58,7 @@ const AuthPage = () => {
                             onSwitchToLogin={() => setIsLogin(true)}
                             onSuccess={() => {
                                 setTimeout(() => {
-                                    navigate({ to: '/dashboard' });
+                                    navigate({ to: '/home' });
                                 }, 1000);
                             }}
                         />
@@ -75,4 +75,3 @@ const AuthPage = () => {
 };
 
 export default AuthPage;
-

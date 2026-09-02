@@ -9,7 +9,7 @@ export default function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [imgError, setImgError] = useState(false);
+  const [failedAvatar, setFailedAvatar] = useState("");
   const dropdownRef = useRef(null);
 
   // Close dropdown on outside click
@@ -76,11 +76,11 @@ export default function NavBar() {
               onClick={() => setIsOpen((prev) => !prev)}
               className="flex items-center gap-3 rounded-full border border-white/20 bg-white/5 py-1.5 px-3 hover:bg-white/10 hover:border-white/30 transition-all cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-nyc-yellow"
             >
-              {user.avatar && !imgError ? (
+              {user.avatar && user.avatar !== failedAvatar ? (
                 <img
                   src={user.avatar}
                   alt={user.name || "User Avatar"}
-                  onError={() => setImgError(true)}
+                  onError={() => setFailedAvatar(user.avatar)}
                   className="h-8 w-8 rounded-full object-cover border border-nyc-yellow/50"
                 />
               ) : (
@@ -89,7 +89,7 @@ export default function NavBar() {
                 </div>
               )}
               <span className="text-sm font-medium text-white max-w-[120px] truncate hidden sm:inline-block">
-                {user.name || "Account"}
+                {user.name || user.email || "Account"}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -107,13 +107,14 @@ export default function NavBar() {
 
             {/* Dropdown Menu */}
             {isOpen && (
-              <div className="absolute right-0 mt-3 w-72 rounded-xl border border-white/15 bg-[#121212] p-4 shadow-2xl backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="absolute right-0 mt-3 w-80 rounded-2xl border border-white/15 bg-[#121212] p-5 shadow-2xl backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                 {/* About Section */}
                 <div className="flex items-center gap-3 pb-3 border-b border-white/10">
-                  {user.avatar && !imgError ? (
+                  {user.avatar && user.avatar !== failedAvatar ? (
                     <img
                       src={user.avatar}
-                      alt={user.name}
+                      alt={user.name || "User Avatar"}
+                      onError={() => setFailedAvatar(user.avatar)}
                       className="h-11 w-11 rounded-full object-cover border-2 border-nyc-yellow"
                     />
                   ) : (
@@ -122,11 +123,11 @@ export default function NavBar() {
                     </div>
                   )}
                   <div className="flex flex-col min-w-0">
-                    <span className="text-sm font-semibold text-white truncate">
-                      {user.name || "User"}
+                    <span className="text-base font-semibold text-white truncate">
+                      {user.name || user.email || "Your account"}
                     </span>
-                    <span className="text-xs text-white/60 truncate">
-                      {user.email || "No email"}
+                    <span className="mt-0.5 text-xs text-white/60 truncate">
+                      {user.email || "Signed in"}
                     </span>
                   </div>
                 </div>
