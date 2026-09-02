@@ -12,6 +12,7 @@ function LoginForm({ onSuccess, onSwitchToRegister }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isAutofillBlocked, setIsAutofillBlocked] = useState(true);
   const dispatch = useDispatch();
 
 
@@ -74,7 +75,13 @@ function LoginForm({ onSuccess, onSwitchToRegister }) {
         </p>
       </div>
 
-      <form className="space-y-4" onSubmit={handleSubmit} noValidate>
+      <form
+        className="space-y-4"
+        onSubmit={handleSubmit}
+        onFocus={() => setIsAutofillBlocked(false)}
+        noValidate
+        autoComplete="off"
+      >
         {/* Email field */}
         <div>
           <label
@@ -87,10 +94,11 @@ function LoginForm({ onSuccess, onSwitchToRegister }) {
             id="login-email"
             name="email"
             type="email"
-            autoComplete="email"
+            autoComplete="off"
             value={formData.email}
             onChange={handleChange}
-            placeholder="you@example.com"
+            readOnly={isAutofillBlocked}
+            placeholder="Enter your email"
             disabled={isLoading}
             required
             aria-describedby={error ? "login-error" : undefined}
@@ -114,10 +122,11 @@ function LoginForm({ onSuccess, onSwitchToRegister }) {
               id="login-password"
               name="password"
               type={showPassword ? "text" : "password"}
-              autoComplete="current-password"
+              autoComplete="off"
               value={formData.password}
               onChange={handleChange}
-              placeholder="••••••••"
+              readOnly={isAutofillBlocked}
+              placeholder="Enter your password"
               disabled={isLoading}
               required
               aria-describedby={error ? "login-error" : undefined}

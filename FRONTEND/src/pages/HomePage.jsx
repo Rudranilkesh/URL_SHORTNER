@@ -3,14 +3,14 @@ import NavBar from "../components/NavBar";
 
 function HomePage() {
   return (
-    <main className="h-dvh overflow-hidden bg-nyc-black px-4 py-4 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto flex h-full w-full max-w-5xl flex-col">
+    <main className="min-h-dvh bg-nyc-black px-4 py-4 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-[calc(100dvh-2rem)] w-full max-w-5xl flex-col sm:min-h-[calc(100dvh-3rem)]">
         <section className="rounded-[2rem] border border-white/15 bg-nyc-dark px-6 py-6 shadow-nyc sm:px-10">
           <NavBar />
         </section>
 
-        <section className="mt-4 flex min-h-0 flex-1 flex-col rounded-[2rem] border border-white/15 bg-nyc-dark p-6 shadow-nyc sm:p-10">
-          <div className="flex min-h-0 flex-1 items-center py-4 sm:py-6">
+        <section className="mt-4 flex flex-1 flex-col rounded-[2rem] border border-white/15 bg-nyc-dark p-6 shadow-nyc sm:p-10">
+          <div className="flex flex-1 items-center py-4 sm:py-6">
           <div className="w-full">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-nyc-yellow">
               Fast. Simple. Shareable.

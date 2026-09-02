@@ -15,14 +15,19 @@ import { tryCatchWrapper } from "./src/utils/tryCatchWrapper.js";
 import { attachUser } from "./src/utils/attachUser.js";
 
 import cookieParser from "cookie-parser";
+import path from "path";
 
 dotenv.config();
 
 const app = express();
+const __dirname = path.resolve();
+
 
 const allowedOrigins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
     process.env.FRONTEND_URL,
 ].filter(Boolean);
 
@@ -47,11 +52,19 @@ app.use(attachUser)
 app.use("/api/auth",auth_routes)
 app.use("/api/create",short_url)
 app.use("/api/user",user_routes)
+app.use(express.static(path.join(__dirname, "../FRONTEND/dist")));
 
+const sendFrontend = (req, res) => {
+    res.sendFile(path.join(__dirname, "../FRONTEND/dist/index.html"));
+};
 
-// get route - redirection
+// Frontend routes must be handled before a short-code route such as /git.
+app.get(["/", "/home", "/dashboard"], sendFrontend);
 
+// Redirect short URLs before falling back to the React application.
 app.get("/:id", tryCatchWrapper(redirectFromShortUrl));
+
+app.get("/{*any}", sendFrontend);
 
 app.use((req, res, next) => {
     next(new NotFoundError(`Route ${req.method} ${req.originalUrl} not found`));
@@ -70,4 +83,3 @@ startServer().catch((error) => {
     console.error("Unable to start server:", error);
     process.exit(1);
 });
-

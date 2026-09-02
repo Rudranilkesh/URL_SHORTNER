@@ -14,6 +14,7 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isAutofillBlocked, setIsAutofillBlocked] = useState(true);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -88,7 +89,13 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
         </p>
       </div>
 
-      <form className="space-y-3" onSubmit={handleSubmit} noValidate>
+      <form
+        className="space-y-3"
+        onSubmit={handleSubmit}
+        onFocus={() => setIsAutofillBlocked(false)}
+        noValidate
+        autoComplete="off"
+      >
         {/* Full Name field */}
         <div>
           <label
@@ -101,10 +108,11 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
             id="register-name"
             name="name"
             type="text"
-            autoComplete="name"
+            autoComplete="off"
             value={formData.name}
             onChange={handleChange}
-            placeholder="Jane Doe"
+            readOnly={isAutofillBlocked}
+            placeholder="Enter your full name"
             disabled={isLoading}
             required
             aria-invalid={Boolean(error)}
@@ -124,10 +132,11 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
             id="register-email"
             name="email"
             type="email"
-            autoComplete="email"
+            autoComplete="off"
             value={formData.email}
             onChange={handleChange}
-            placeholder="you@example.com"
+            readOnly={isAutofillBlocked}
+            placeholder="Enter your email"
             disabled={isLoading}
             required
             aria-invalid={Boolean(error)}
@@ -148,10 +157,11 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
               id="register-password"
               name="password"
               type={showPassword ? "text" : "password"}
-              autoComplete="new-password"
+              autoComplete="off"
               value={formData.password}
               onChange={handleChange}
-              placeholder="••••••••"
+              readOnly={isAutofillBlocked}
+              placeholder="Enter a password"
               disabled={isLoading}
               required
               aria-invalid={Boolean(error)}
@@ -215,10 +225,11 @@ function RegisterForm({ onSuccess, onSwitchToLogin }) {
             id="register-confirm-password"
             name="confirmPassword"
             type={showPassword ? "text" : "password"}
-            autoComplete="new-password"
+            autoComplete="off"
             value={formData.confirmPassword}
             onChange={handleChange}
-            placeholder="••••••••"
+            readOnly={isAutofillBlocked}
+            placeholder="Confirm your password"
             disabled={isLoading}
             required
             aria-invalid={Boolean(error)}
