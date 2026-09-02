@@ -23,17 +23,23 @@ const app = express();
 const __dirname = path.resolve();
 
 
+const normalizeOrigin = (origin) => origin?.trim().replace(/\/$/, "");
+
 const allowedOrigins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     process.env.FRONTEND_URL,
-].filter(Boolean);
+    process.env.RENDER_EXTERNAL_URL,
+]
+    .flatMap((origin) => origin?.split(",") ?? [])
+    .map(normalizeOrigin)
+    .filter(Boolean);
 
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.includes(normalizeOrigin(origin))) {
             return callback(null, true);
         }
 
@@ -74,8 +80,9 @@ app.use(errorHandler);
 
 const startServer = async () => {
     await connectDB();
-    app.listen(3000, () => {
-        console.log("server is running on http://localhost:3000");
+    const port = process.env.PORT || 3000;
+    app.listen(port, "0.0.0.0", () => {
+        console.log(`server is running on port ${port}`);
     });
 };
 
