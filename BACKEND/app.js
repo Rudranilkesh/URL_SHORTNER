@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./src/config/mongo.config.js";
 
+import user_routes from "./src/routes/user.route.js"
 import short_url from "./src/routes/short_url.route.js"
 import auth_routes from "./src/routes/auth.routes.js"
 
@@ -45,6 +46,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(attachUser)
 app.use("/api/auth",auth_routes)
 app.use("/api/create",short_url)
+app.use("/api/user",user_routes)
 
 
 // get route - redirection
