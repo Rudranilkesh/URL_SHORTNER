@@ -17,7 +17,7 @@ export const getShortUrl = async (shortUrl) => {
     return await urlSchema.findOneAndUpdate(
         { short_url: shortUrl },
         { $inc: { clicks: 1 } },
-        { new: true }
+        { returnDocument: "after" }
     );
 };
 

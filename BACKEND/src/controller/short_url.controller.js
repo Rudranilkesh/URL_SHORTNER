@@ -1,6 +1,7 @@
 import {
   createShortUrlWithoutUser,
   createShortUrlWithUser,
+  createCustomShortUrl as createCustomShortUrlService,
   getShortUrl,
   getUrlsByUser,
 } from "../services/short_url.service.js";
@@ -58,9 +59,9 @@ export const createCustomShortUrl = async (req, res) => {
 
   let shortUrl;
   if (req.user) {
-    shortUrl = await createCustomUrlWithUser(url, req.user._id);
+    shortUrl = await createCustomShortUrlService(url, req.body.slug, req.user._id);
   } else {
-    shortUrl = await createCustomUrlWithoutUser(url);
+    shortUrl = await createCustomShortUrlService(url, req.body.slug);
   }
   res.status(200).json({ shortUrl: buildShortUrl(shortUrl, req) });
 };
