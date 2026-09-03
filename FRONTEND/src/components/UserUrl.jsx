@@ -3,6 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllUserUrls } from "../api/user.api";
 
 const truncate = (value, length) => value?.length > length ? `${value.slice(0, length)}...` : value;
+const shortUrlBase = (
+  import.meta.env.VITE_PUBLIC_URL ||
+  import.meta.env.VITE_API_URL?.replace(/\/api\/?$/, "") ||
+  window.location.origin
+).replace(/\/+$/, "");
 
 export default function UserUrl() {
   const { data: links = [], isLoading, isError, error } = useQuery({
@@ -44,7 +49,7 @@ export default function UserUrl() {
         {!isLoading && !isError && links.length > 0 ? (
           <div className="links-scrollbar overflow-x-auto"><table className="w-full text-sm"><thead><tr className="border-b border-white/10 text-left text-[10px] font-semibold uppercase tracking-wider text-white/35"><th className="px-6 py-2.5">Short URL</th><th className="hidden px-6 py-2.5 sm:table-cell">Original URL</th><th className="px-6 py-2.5 text-center">Clicks</th><th className="px-6 py-2.5 text-right">Copy</th></tr></thead><tbody>
             {links.map((link) => {
-              const shortUrl = `${window.location.protocol}//${window.location.hostname}:3000/${link.short_url}`;
+              const shortUrl = `${shortUrlBase}/${link.short_url}`;
               return <tr className="border-b border-white/5 hover:bg-white/[0.04]" key={link._id}><td className="px-6 py-3"><a className="font-semibold text-nyc-yellow hover:underline" href={shortUrl} rel="noreferrer" target="_blank">/{link.short_url}</a></td><td className="hidden px-6 py-3 text-white/45 sm:table-cell" title={link.full_url}>{truncate(link.full_url, 48)}</td><td className="px-6 py-3 text-center">{link.clicks ?? 0}</td><td className="px-6 py-3 text-right"><button className="rounded-md border border-white/15 px-3 py-1.5 text-xs font-medium text-white/60 hover:border-nyc-yellow hover:text-nyc-yellow" onClick={() => handleCopy(shortUrl, link._id)} type="button">{copiedId === link._id ? "Copied" : "Copy"}</button></td></tr>;
             })}
           </tbody></table></div>

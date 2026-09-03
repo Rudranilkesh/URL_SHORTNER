@@ -15,11 +15,19 @@ const buildShortUrl = (shortUrl, req) => {
 };
 
 export const createShortUrl = async (req, res) => {
-  const data = req.body
-  let shortUrl
-  if(req.user){
-    shortUrl = await createShortUrlWithUser(data.url, req.user._id,data.slug);
-  }else{
+  const data = req.body;
+  const slug = typeof data.slug === "string" ? data.slug.trim() : "";
+  let shortUrl;
+
+  if (slug) {
+    shortUrl = await createCustomShortUrlService(
+      data.url,
+      slug,
+      req.user?._id,
+    );
+  } else if (req.user) {
+    shortUrl = await createShortUrlWithUser(data.url, req.user._id);
+  } else {
     shortUrl = await createShortUrlWithoutUser(data.url);
   }
   res.status(200).json({ shortUrl: buildShortUrl(shortUrl, req) });
