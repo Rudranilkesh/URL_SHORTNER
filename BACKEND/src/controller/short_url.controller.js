@@ -6,6 +6,9 @@ import {
 } from "../services/short_url.service.js";
 import { BadRequestError, NotFoundError } from "../utils/errorHandler.js";
 
+const buildShortUrl = (shortUrl) =>
+  `${process.env.APP_URL?.replace(/\/+$/, "")}/${shortUrl}`;
+
 export const createShortUrl = async (req, res) => {
   const data = req.body
   let shortUrl
@@ -14,7 +17,7 @@ export const createShortUrl = async (req, res) => {
   }else{
     shortUrl = await createShortUrlWithoutUser(data.url);
   }
-  res.status(200).json({shortUrl:process.env.APP_URL + shortUrl})
+  res.status(200).json({ shortUrl: buildShortUrl(shortUrl) });
 };
 
 
@@ -55,7 +58,7 @@ export const createCustomShortUrl = async (req, res) => {
   } else {
     shortUrl = await createCustomUrlWithoutUser(url);
   }
-  res.status(200).json({ shortUrl: process.env.APP_URL + shortUrl });
+  res.status(200).json({ shortUrl: buildShortUrl(shortUrl) });
 };
 
 export const get_user_links = async (req, res) => {
